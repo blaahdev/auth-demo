@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server.js";
-import { ERROR_MESSAGE, SUCCESS_MESSAGE } from "../../../../lib/messages";
+import { ERROR_MESSAGE } from "../../../../lib/messages";
 
 const regex = /^[a-zA-Z0-9._%+-]+@dso\.org\.sg$/;
 
@@ -60,6 +60,7 @@ export const POST = async (request) => {
     try {
       userRecord = await admin.auth().getUserByEmail(emailid);
     } catch (error) {
+      console.error(error);
       userRecord = await admin.auth().createUser({
         email: email,
         emailVerified: true,

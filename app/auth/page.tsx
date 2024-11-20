@@ -8,25 +8,18 @@ import axios from "axios";
 
 const regex = /^[a-zA-Z0-9._%+-]+@dso\.org\.sg$/;
 
-const callApi = async () => {
-  try {
-  } catch (err) {}
-};
-
 interface Form {
   email: string;
   tnc: boolean;
 }
 
 interface EmailScreenProps {
-  mode: number;
   setMode: (mode: number) => void;
   form: Form;
   setForm: React.Dispatch<React.SetStateAction<Form>>;
 }
 
 interface OTPScreenProps {
-  mode: number;
   setMode: (mode: number) => void;
   form: Form;
   setForm: React.Dispatch<React.SetStateAction<Form>>;
@@ -87,20 +80,10 @@ export default function AuthPage() {
         >
           {/* RHS:: FORM */}
           {mode === 1 && (
-            <EmailScreen
-              mode={mode}
-              setMode={setMode}
-              form={form}
-              setForm={setForm}
-            />
+            <EmailScreen setMode={setMode} form={form} setForm={setForm} />
           )}
           {mode === 2 && (
-            <OTPScreen
-              mode={mode}
-              setMode={setMode}
-              form={form}
-              setForm={setForm}
-            />
+            <OTPScreen setMode={setMode} form={form} setForm={setForm} />
           )}
         </form>
       </div>
@@ -109,7 +92,7 @@ export default function AuthPage() {
 }
 // -------------------------------------------- SUB SCREENS: EMAIL -------------------------------------//
 
-function EmailScreen({ mode, setMode, form, setForm }: EmailScreenProps) {
+function EmailScreen({ setMode, form, setForm }: EmailScreenProps) {
   const [errors, setErrors] = useState<{
     email: string;
     tnc: string;
@@ -161,7 +144,7 @@ function EmailScreen({ mode, setMode, form, setForm }: EmailScreenProps) {
       setTimeout(() => {}, 1000);
       setIsLoading(false);
       setMode(2);
-    } catch (err) {
+    } catch (err: any) {
       setErrors((prev) => ({ ...prev, api: err?.message }));
       setIsLoading(false);
     }
@@ -203,7 +186,7 @@ function EmailScreen({ mode, setMode, form, setForm }: EmailScreenProps) {
             id="tnc"
             name="tnc"
             required={true}
-            value={form.tnc}
+            value={form.tnc.toString()}
             onChange={handleCheckbox}
           />
           <label htmlFor="tnc" className="text-black">
@@ -232,7 +215,7 @@ function EmailScreen({ mode, setMode, form, setForm }: EmailScreenProps) {
 
 const OTP_LENGTH = 6;
 const SECONDS = 60 * 5;
-function OTPScreen({ mode, setMode, form, setForm }: OTPScreenProps) {
+function OTPScreen({ setMode, form, setForm }: OTPScreenProps) {
   const [counter, setCounter] = useState<number>(SECONDS);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [otp, setOtp] = useState<string>("");
@@ -244,12 +227,12 @@ function OTPScreen({ mode, setMode, form, setForm }: OTPScreenProps) {
     }
     try {
       setIsLoading(true);
-      const res = await axios.post("/api/verifyOTP", {
+      await axios.post("/api/verifyOTP", {
         email: form.email,
         otp: otp,
       });
       setError("");
-    } catch (err) {
+    } catch (err: any) {
       setError(err?.message || "Something went wrong");
     } finally {
       setIsLoading(false);
@@ -352,11 +335,12 @@ function Counter({
   const secondLeft = remainder < 9 ? "0" + remainder : remainder;
 
   useEffect(() => {
-    const timer =
-      counter > 0 &&
-      setTimeout(() => {
-        setCounter((time) => time - 1);
-      }, 1000);
+    if (counter <= 0) {
+      return;
+    }
+    const timer = setTimeout(() => {
+      setCounter((time) => time - 1);
+    }, 1000);
 
     return () => {
       clearTimeout(timer);
