@@ -158,7 +158,7 @@ function EmailScreen({ mode, setMode, form, setForm }: EmailScreenProps) {
       // const res = await axios.post("/api/genOTP", {
       //   email: form.email,
       // });
-      setTimeout(() => {}, [1000]);
+      setTimeout(() => {}, 1000);
       setIsLoading(false);
       setMode(2);
     } catch (err) {

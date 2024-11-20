@@ -19,8 +19,8 @@ export const POST = async (request) => {
     let quotaExceeded = false;
 
     if (quotaExceeded) {
-      return res.status(400).send({
-        status: "error",
+      return new NextResponse(ERROR_MESSAGE.MAX_TRIES, {
+        status: 400,
         message: ERROR_MESSAGE.MAX_TRIES,
       });
     }
@@ -81,6 +81,7 @@ export const POST = async (request) => {
   } catch (error) {
     return new NextResponse("Error in creating user" + error.message, {
       status: 500,
+      message: error.message,
     });
   }
 };

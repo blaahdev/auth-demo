@@ -11,7 +11,6 @@
 1. Download files
 2. `npm install` to install all dependencies. You should see node_modules
 3. `npm run dev` to run the file on localhost
-4. Alternatively, see deployed URL here:
 
 ---
 

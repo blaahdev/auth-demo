@@ -9,16 +9,17 @@ export const POST = async (request) => {
     const { email, otp } = await request.json();
     // 3.Validation
     if (!regex.test(email)) {
-      return res
-        .status(400)
-        .send({ status: "error", message: ERROR_MESSAGE.INVALID_REQUEST_BODY });
+      return new NextResponse(ERROR_MESSAGE.INVALID_REQUEST_BODY, {
+        status: 400,
+        message: ERROR_MESSAGE.INVALID_REQUEST_BODY,
+      });
     }
 
     //4. Check in DB if email quota tries has reached its limit
     let quotaExceeded = false;
     if (quotaExceeded) {
-      return res.status(400).send({
-        status: "error",
+      return new NextResponse(ERROR_MESSAGE.MAX_TRIES, {
+        status: 400,
         message: ERROR_MESSAGE.MAX_TRIES,
       });
     }
@@ -40,17 +41,16 @@ export const POST = async (request) => {
         },
         { merge: true }
       );
-
-      return res.status(400).send({
-        status: "error",
+      return new NextResponse(ERROR_MESSAGE.OTP_EXPIRE, {
+        status: 400,
         message: ERROR_MESSAGE.OTP_EXPIRE,
       });
     }
 
     //7.Check if OTP is correct
     if (loginData && loginData.activeOTP.OTP != otp) {
-      return res.status(400).send({
-        status: "error",
+      return new NextResponse(ERROR_MESSAGE.WRONG_OTP, {
+        status: 400,
         message: ERROR_MESSAGE.WRONG_OTP,
       });
     }
@@ -89,6 +89,7 @@ export const POST = async (request) => {
   } catch (error) {
     return new NextResponse("Error in creating user" + error.message, {
       status: 500,
+      message: error.message,
     });
   }
 };
