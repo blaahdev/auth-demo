@@ -9,8 +9,18 @@ export default {
   theme: {
     extend: {
       colors: {
-        background: "var(--background)",
-        foreground: "var(--foreground)",
+        white: "var(--white)",
+        black: "var(--black)",
+        accent: "var(--accent)",
+      },
+      boxShadow: {
+        custom: "var(--shadow)",
+      },
+      backgroundImage: {
+        gradient: "var(--gradient)",
+      },
+      borderWidth: {
+        custom: "var(--border)",
       },
     },
   },
