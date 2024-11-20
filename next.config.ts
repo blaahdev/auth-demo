@@ -10,6 +10,15 @@ const nextConfig: NextConfig = {
     // your project has ESLint errors.
     ignoreDuringBuilds: true,
   },
+  async redirects() {
+    return [
+      {
+        source: "/",
+        destination: "/auth",
+        permanent: true, // Set to true for 301 (permanent) or false for 302 (temporary)
+      },
+    ];
+  },
 };
 
 export default nextConfig;

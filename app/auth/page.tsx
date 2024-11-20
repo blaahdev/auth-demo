@@ -61,7 +61,7 @@ export default function AuthPage() {
               className="absolute top-[60%] left-1/2 -translate-x-1/2 w-[16rem] h-[5rem] border-[1px] border-white rounded-[3rem] uppercase tracking-wide text-white hover:bg-accent"
               onClick={() => setMode(1)}
             >
-              Sign Up
+              Log In
             </button>
           ) : (
             <button
