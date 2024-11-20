@@ -1,10 +1,10 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowLeft, faEnvelope } from "@fortawesome/free-solid-svg-icons";
 import OtpInput from "react-otp-input";
 import axios from "axios";
+import { MdOutlineEmail } from "react-icons/md";
+import { IoIosArrowRoundBack } from "react-icons/io";
 
 const regex = /^[a-zA-Z0-9._%+-]+@dso\.org\.sg$/;
 
@@ -69,7 +69,8 @@ export default function AuthPage() {
               className="absolute top-[60%] left-1/2 -translate-x-1/2 w-[16rem] h-[5rem] border-none items-center gap-4 text-white flex justify-center"
               onClick={() => setMode(0)}
             >
-              <FontAwesomeIcon icon={faArrowLeft} /> Back
+              {/* <FontAwesomeIcon icon={faArrowLeft} /> Back */}
+              <IoIosArrowRoundBack /> Back
             </button>
           )}
         </div>
@@ -160,10 +161,12 @@ function EmailScreen({ setMode, form, setForm }: EmailScreenProps) {
         </p>
       </div>
       <div className="flex flex-col gap-2 w-full relative">
-        <FontAwesomeIcon
+        {/* <FontAwesomeIcon
           icon={faEnvelope}
           className="absolute top-1/2 left-4 -translate-y-1/2 text-gray-600"
-        />
+        /> */}
+        <MdOutlineEmail className="absolute top-1/2 left-4 -translate-y-1/2 text-gray-600" />
+
         <input
           type="email"
           placeholder="Email"
