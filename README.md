@@ -1,6 +1,8 @@
 # Tech Stack:
 
-1. FrontEnd + BackEnd: NextJS
+1. FrontEnd: NextJS
+2. Styling: CSS + TailwindCSS
+3. Backend: NextJS: Only Logic flow written. Actual integration with BE + OTP generator is not connected.
 
 ---
 

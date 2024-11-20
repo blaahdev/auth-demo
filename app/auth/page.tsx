@@ -4,18 +4,52 @@ import { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft, faEnvelope } from "@fortawesome/free-solid-svg-icons";
 import OtpInput from "react-otp-input";
+import axios from "axios";
 
 const regex = /^[a-zA-Z0-9._%+-]+@dso\.org\.sg$/;
 
+const callApi = async () => {
+  try {
+  } catch (err) {}
+};
+
+interface Form {
+  email: string;
+  tnc: boolean;
+}
+
+interface EmailScreenProps {
+  mode: number;
+  setMode: (mode: number) => void;
+  form: Form;
+  setForm: React.Dispatch<React.SetStateAction<Form>>;
+}
+
+interface OTPScreenProps {
+  mode: number;
+  setMode: (mode: number) => void;
+  form: Form;
+  setForm: React.Dispatch<React.SetStateAction<Form>>;
+}
+
+interface CounterProps {
+  counter: number;
+  setCounter: React.Dispatch<React.SetStateAction<number>>;
+  setError: React.Dispatch<React.SetStateAction<string>>;
+}
+
 export default function AuthPage() {
-  const [mode, setMode] = useState(0);
-  const [form, setForm] = useState({ email: "", tnc: false });
+  const [mode, setMode] = useState<number>(0);
+  const [form, setForm] = useState<Form>({
+    email: "",
+    tnc: false,
+  });
 
   return (
     <div
       className={`w-full h-screen flex justify-center items-center bg-gradient2`}
     >
-      <div className="relative w-[100rem] h-[80vh] bg-white rounded-[3rem] shadow-md overflow-hidden">
+      <div className="relative w-[100rem] min-h-[80vh] bg-white rounded-[3rem] shadow-md overflow-hidden">
         <div
           className={`absolute top-[50%] left-[-30rem] text-center text-white w-[30rem] z-[100] transition-all duration-[800ms] ${
             mode === 0 ? "" : "left-[5rem]"
@@ -75,13 +109,20 @@ export default function AuthPage() {
 }
 // -------------------------------------------- SUB SCREENS: EMAIL -------------------------------------//
 
-function EmailScreen({ mode, setMode, form, setForm }) {
-  const [errors, setErrors] = useState({ email: "", tnc: "" });
-  const [isLoading, setIsLoading] = useState(false);
+function EmailScreen({ mode, setMode, form, setForm }: EmailScreenProps) {
+  const [errors, setErrors] = useState<{
+    email: string;
+    tnc: string;
+    api: string;
+  }>({
+    email: "",
+    tnc: "",
+    api: "",
+  });
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  const handleEmail = (e) => {
+  const handleEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
-    console.log(value, regex.test(value));
     setForm((prev) => ({ ...prev, email: value }));
     if (value.trim() === "") {
       setErrors((prev) => ({ ...prev, email: "E-mail is required." }));
@@ -98,7 +139,7 @@ function EmailScreen({ mode, setMode, form, setForm }) {
     }
   };
 
-  const handleCheckbox = (e) => {
+  const handleCheckbox = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.checked;
     setForm((prev) => ({ ...prev, tnc: value }));
   };
@@ -107,20 +148,23 @@ function EmailScreen({ mode, setMode, form, setForm }) {
     Object.values(form).every((each) => each) &&
     Object.values(errors).every((each) => !each);
 
-  const handleGetOTP = () => {
-    //check form
+  const handleGetOTP = async () => {
     if (!passed) {
-      alert("ENTERED 1");
       return;
     }
-    //loading
     setIsLoading(true);
-
-    //call API
-
-    //set screen mode
-    setMode(2);
-    setIsLoading(false);
+    try {
+      //Actually call api but i will temp set timer
+      // const res = await axios.post("/api/genOTP", {
+      //   email: form.email,
+      // });
+      setTimeout(() => {}, [1000]);
+      setIsLoading(false);
+      setMode(2);
+    } catch (err) {
+      setErrors((prev) => ({ ...prev, api: err?.message }));
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -174,6 +218,11 @@ function EmailScreen({ mode, setMode, form, setForm }) {
         >
           {isLoading ? "Please Wait..." : "Get OTP"}
         </button>
+        {
+          <span className="text-red-400 absolute bottom-[-20px]">
+            {errors?.api}
+          </span>
+        }
       </div>
     </>
   );
@@ -183,29 +232,37 @@ function EmailScreen({ mode, setMode, form, setForm }) {
 
 const OTP_LENGTH = 6;
 const SECONDS = 60 * 5;
-function OTPScreen({ mode, setMode, form, setForm }) {
-  const [counter, setCounter] = useState(SECONDS);
-  const [isLoading, setIsLoading] = useState(false);
-  const [otp, setOtp] = useState("");
+function OTPScreen({ mode, setMode, form, setForm }: OTPScreenProps) {
+  const [counter, setCounter] = useState<number>(SECONDS);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [otp, setOtp] = useState<string>("");
+  const [error, setError] = useState("");
 
   const handleVerifyOTP = async () => {
     if (otp.length !== 6) {
       return;
     }
-    //   loginVerifyOTP({ email, OTP: otp })
-    //     .unwrap()
-    //     .then(() => {
-    //       navigate(URL_ROUTES.COMPANY_SEARCH);
-    //     })
-    //     .catch((err) => {});
+    try {
+      setIsLoading(true);
+      const res = await axios.post("/api/verifyOTP", {
+        email: form.email,
+        otp: otp,
+      });
+      setError("");
+    } catch (err) {
+      setError(err?.message || "Something went wrong");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
-  const handleReset = () => {
-    setOtp("");
+  const handleResetOTP = () => {
     setCounter(SECONDS);
+    setError("");
+    handleVerifyOTP();
   };
 
-  const handleChange = (newValue) => {
+  const handleChange = (newValue: string) => {
     if (isLoading) {
       return;
     }
@@ -213,8 +270,8 @@ function OTPScreen({ mode, setMode, form, setForm }) {
   };
 
   const handleLoginAnotherAcc = () => {
+    setForm(() => ({ email: "", tnc: false })); //reset
     setMode(1);
-    setForm((prev) => ({ email: "", tnc: false })); //reset
   };
 
   const disabled = otp.length !== OTP_LENGTH || isLoading;
@@ -235,7 +292,7 @@ function OTPScreen({ mode, setMode, form, setForm }) {
         <OtpInput
           value={otp}
           onChange={handleChange}
-          numInputs={6}
+          numInputs={OTP_LENGTH}
           inputType="number"
           renderInput={(props) => <input {...props} />}
           shouldAutoFocus={true}
@@ -245,7 +302,7 @@ function OTPScreen({ mode, setMode, form, setForm }) {
             width: "50px",
             height: "50px",
           }}
-          containerStyle={{ display: "flex", gap: "20px" }}
+          containerStyle={{ display: "flex", gap: "10px" }}
         />
       </div>
       <div className="flex flex-col gap-2 text-center w-full">
@@ -257,10 +314,19 @@ function OTPScreen({ mode, setMode, form, setForm }) {
         >
           {isLoading ? "Please Wait..." : "Verify OTP"}
         </button>
-        <Counter counter={counter} setCounter={setCounter} />
+        {<span className="text-red-400">{error}</span>}
+        <Counter
+          counter={counter}
+          setCounter={setCounter}
+          setError={setError}
+        />
         <div className="text-base text-black">
           <span>Did not receive OTP?</span>
-          <button className="ml-2 text-accent" onClick={handleReset}>
+          <button
+            className="ml-2 text-accent disabled:text-grey"
+            onClick={handleResetOTP}
+            disabled={counter > 0}
+          >
             Resend OTP
           </button>
         </div>
@@ -276,7 +342,11 @@ function OTPScreen({ mode, setMode, form, setForm }) {
 
 // -------------------------------------------- SUB SCREENS: COUNTER  -------------------------------------//
 
-function Counter({ counter = SECONDS, setCounter = () => {} }) {
+function Counter({
+  counter = SECONDS,
+  setCounter = () => {},
+  setError = () => {},
+}: CounterProps) {
   const minuteLeft = Math.floor(counter / 60);
   const remainder = counter % 60;
   const secondLeft = remainder < 9 ? "0" + remainder : remainder;
@@ -287,9 +357,16 @@ function Counter({ counter = SECONDS, setCounter = () => {} }) {
       setTimeout(() => {
         setCounter((time) => time - 1);
       }, 1000);
+
     return () => {
-      clearInterval(timer);
+      clearTimeout(timer);
     };
+  }, [counter]);
+
+  useEffect(() => {
+    if (+counter <= 0) {
+      setError("OTP Timer has Ended");
+    }
   }, [counter]);
 
   return (
@@ -300,10 +377,4 @@ function Counter({ counter = SECONDS, setCounter = () => {} }) {
       </span>
     </span>
   );
-}
-
-export function matchIsNumeric(text) {
-  const isNumber = typeof text === "number";
-  const isString = typeof text === "string";
-  return (isNumber || (isString && text !== "")) && !isNaN(Number(text));
 }
