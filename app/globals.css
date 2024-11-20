@@ -4,15 +4,17 @@
 
 :root {
   --white: #fff;
-  --black: #777;
+  --black: #212121;
   --accent: #3aaf9f;
   --shadow: 0 2rem 6rem rgba(0, 0, 0, 0.3);
   --gradient: linear-gradient(to right, #3ab19b, #4cbf91);
   --gradient2: linear-gradient(to right, #5dd4be, #83edc3);
+  --dark-gradient: linear-gradient(to right, #0a4a3e, #010c07);
+  --dark-gradient2: linear-gradient(to right, #022720, #000f09);
   --border: 0.1rem solid #777;
 }
-/* 
-@media (prefers-color-scheme: dark) {
+
+/* @media (prefers-color-scheme: dark) {
   :root {
     --background: var(--black);
     --foreground: var(--white);

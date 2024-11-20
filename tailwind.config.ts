@@ -6,6 +6,7 @@ export default {
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
+  darkMode: "media",
   theme: {
     screens: {
       sm: "640px",
@@ -26,6 +27,8 @@ export default {
       backgroundImage: {
         gradient: "var(--gradient)",
         gradient2: "var(--gradient2)",
+        darkGradient: "var(--dark-gradient)",
+        darkGradient2: "var(--dark-gradient2)",
       },
       borderWidth: {
         custom: "var(--border)",

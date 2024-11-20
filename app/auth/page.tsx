@@ -40,18 +40,18 @@ export default function AuthPage() {
 
   return (
     <div
-      className={`w-full h-screen flex justify-center items-center bg-gradient2 p-0 sm:p-20`}
+      className={`w-full h-screen flex justify-center items-center bg-gradient2 dark:bg-darkGradient2 p-0 sm:p-20`}
     >
-      <div className="relative w-[100rem] h-full sm:min-h-[90vh] bg-white sm:rounded-[3rem] shadow-md overflow-hidden flex content-center items-center p-20">
+      <div className="relative w-[100rem] h-full sm:min-h-[90vh] bg-white dark:bg-black sm:rounded-[3rem] shadow-md overflow-hidden flex content-center items-center p-20">
         <div
-          className={`absolute top-[50%] left-[-30rem] text-center text-white w-[30rem] z-[100] transition-all duration-[800ms] ${
+          className={`absolute top-[50%] left-[-30rem] text-center text-white dark:text-white w-[30rem] z-[100] transition-all duration-[800ms] ${
             mode === 0 ? "" : "left-[5rem]"
           }`}
         >
           <h1 className="text-6xl mb-12 hidden md:block">Welcome</h1>
         </div>
         <div
-          className={`absolute inset-0 z-[50] bg-gradient transition-all duration-[1500ms] ${
+          className={`absolute inset-0 z-[50] bg-gradient dark:bg-darkGradient transition-all duration-[1500ms] ${
             mode === 0 ? "w-full" : "w-[40%] hidden md:block"
           }`}
         >
@@ -191,7 +191,7 @@ function EmailScreen({ setMode, form, setForm }: EmailScreenProps) {
             value={form.tnc.toString()}
             onChange={handleCheckbox}
           />
-          <label htmlFor="tnc" className="text-black text-xl">
+          <label htmlFor="tnc" className="text-black dark:text-white text-xl">
             I accept and agree to the Terms of User and Privacy Policy
           </label>
         </div>
@@ -297,7 +297,7 @@ function OTPScreen({ setMode, form, setForm }: OTPScreenProps) {
           }}
         />
       </div>
-      <div className="flex flex-col gap-2 text-center w-full">
+      <div className="flex flex-col gap-2 text-center w-full text-xl text-black dark:text-white">
         <button
           type="button"
           className="w-full h-[5rem]  text-3xl bg-accent text-white rounded-[3rem] tracking-wide mt-12 hover:bg-accent disabled:bg-slate-300"
@@ -312,17 +312,17 @@ function OTPScreen({ setMode, form, setForm }: OTPScreenProps) {
           setCounter={setCounter}
           setError={setError}
         />
-        <div className="text-base text-black">
+        <div>
           <span>Did not receive OTP?</span>
           <button
-            className="ml-2 text-accent text-base font-semibold disabled:text-gray-400"
+            className="ml-2 text-accent font-semibold disabled:text-gray-400"
             onClick={handleResetOTP}
             disabled={counter > 0}
           >
-            Resend OTP {JSON.stringify(counter > 0)}
+            Resend OTP
           </button>
         </div>
-        <div className="text-base text-black">
+        <div>
           <button
             className="ml-2 font-semibold text-accent"
             onClick={handleLoginAnotherAcc}
@@ -368,7 +368,7 @@ function Counter({
   return (
     <span>
       OTP Expiry:{" "}
-      <span className="text-accent">
+      <span className="text-accent font-semibold">
         {minuteLeft}:{secondLeft}
       </span>
     </span>
