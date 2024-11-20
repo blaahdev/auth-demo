@@ -15,7 +15,7 @@
 1. Download files
 2. `npm install` to install all dependencies. You should see node_modules
 3. `npm run dev` to run the file on localhost
-4. Alternatively, view the deployed site at: https://auth-demo-j2i3e92hh-blaahs-projects.vercel.app/auth
+4. Alternatively, view the deployed site at: https://auth-demo-lac.vercel.app
 
 ---
 
