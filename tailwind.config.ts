@@ -7,6 +7,13 @@ export default {
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
+    screens: {
+      sm: "640px",
+      md: "984px",
+      lg: "1024px",
+      xl: "1280px",
+      "2xl": "1536px",
+    },
     extend: {
       colors: {
         white: "var(--white)",
@@ -18,6 +25,7 @@ export default {
       },
       backgroundImage: {
         gradient: "var(--gradient)",
+        gradient2: "var(--gradient2)",
       },
       borderWidth: {
         custom: "var(--border)",

@@ -8,6 +8,7 @@
   --accent: #3aaf9f;
   --shadow: 0 2rem 6rem rgba(0, 0, 0, 0.3);
   --gradient: linear-gradient(to right, #3ab19b, #4cbf91);
+  --gradient2: linear-gradient(to right, #5dd4be, #83edc3);
   --border: 0.1rem solid #777;
 }
 
