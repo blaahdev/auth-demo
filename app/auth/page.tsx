@@ -40,7 +40,7 @@ export default function AuthPage() {
 
   return (
     <div
-      className={`w-full h-screen flex justify-center items-center bg-gradient2 p-20`}
+      className={`w-full h-screen flex justify-center items-center bg-gradient2 p-0 sm:p-20`}
     >
       <div className="relative w-[100rem] h-full sm:min-h-[90vh] bg-white sm:rounded-[3rem] shadow-md overflow-hidden flex content-center items-center p-20">
         <div

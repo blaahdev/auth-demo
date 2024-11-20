@@ -11,13 +11,13 @@
   --gradient2: linear-gradient(to right, #5dd4be, #83edc3);
   --border: 0.1rem solid #777;
 }
-
+/* 
 @media (prefers-color-scheme: dark) {
   :root {
     --background: var(--black);
     --foreground: var(--white);
   }
-}
+} */
 
 html,
 body {
