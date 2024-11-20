@@ -169,7 +169,7 @@ function EmailScreen({ setMode, form, setForm }: EmailScreenProps) {
         <input
           type="email"
           placeholder="Email"
-          className="w-full h-[5rem] text-xl pl-12 pr-4 rounded border border-gray-300"
+          className="w-full h-[5rem] text-xl pl-12 pr-4 rounded border border-gray-30 dark:bg-black dark:text-white"
           required={true}
           onChange={handleEmail}
           name="email"
@@ -184,6 +184,7 @@ function EmailScreen({ setMode, form, setForm }: EmailScreenProps) {
       <div className="flex flex-col gap-2 text-center w-full items-center ">
         <div className="flex items-center gap-2 w-full">
           <input
+            className="bg-white text-black dark:bg-black dark:text-white"
             type="checkbox"
             id="tnc"
             name="tnc"
@@ -275,7 +276,7 @@ function OTPScreen({ setMode, form, setForm }: OTPScreenProps) {
           Please check your email inbox.
         </p>
       </div>
-      <div className="flex flex-col gap-2 text-center w-full">
+      <div className="flex flex-col gap-2 text-center w-full bg-white text-black dark:bg-black dark:text-white">
         <OtpInput
           value={otp}
           onChange={handleChange}
@@ -289,6 +290,8 @@ function OTPScreen({ setMode, form, setForm }: OTPScreenProps) {
             width: `calc(90% / ${OTP_LENGTH})`,
             maxWidth: "50px",
             aspectRatio: "1/1",
+            background: "inherit",
+            color: "inherit",
           }}
           containerStyle={{
             display: "flex",

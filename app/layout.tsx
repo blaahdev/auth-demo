@@ -21,6 +21,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
+    // className="dark"
     <html lang="en">
       <body className={`${quicksand.className}`}>{children}</body>
     </html>
