@@ -40,7 +40,7 @@ export default function AuthPage() {
 
   return (
     <div
-      className={`w-full h-screen flex justify-center items-center bg-gradient2`}
+      className={`w-full h-screen flex justify-center items-center bg-gradient2 p-20`}
     >
       <div className="relative w-[100rem] h-full sm:min-h-[90vh] bg-white sm:rounded-[3rem] shadow-md overflow-hidden flex content-center items-center p-20">
         <div
@@ -138,15 +138,19 @@ function EmailScreen({ setMode, form, setForm }: EmailScreenProps) {
     setIsLoading(true);
     try {
       //Actually call api but i will temp set timer
-      // const res = await axios.post("/api/genOTP", {
-      //   email: form.email,
-      // });
-      setTimeout(() => {}, 1000);
-      setIsLoading(false);
+      await axios.post("/api/genOTP", {
+        email: form.email,
+      });
       setMode(2);
     } catch (err: any) {
-      setErrors((prev) => ({ ...prev, api: err?.message }));
+      setErrors((prev) => ({
+        ...prev,
+        api: err?.message,
+      }));
+    } finally {
+      //because API will fail, we will bypass to show next stage...
       setIsLoading(false);
+      setMode(2);
     }
   };
 
@@ -160,10 +164,6 @@ function EmailScreen({ setMode, form, setForm }: EmailScreenProps) {
         </p>
       </div>
       <div className="flex flex-col gap-2 w-full relative">
-        {/* <FontAwesomeIcon
-          icon={faEnvelope}
-          className="absolute top-1/2 left-4 -translate-y-1/2 text-gray-600"
-        /> */}
         <MdOutlineEmail className="absolute top-1/2 left-4 -translate-y-1/2 text-gray-600" />
 
         <input
