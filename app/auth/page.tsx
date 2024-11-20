@@ -42,13 +42,13 @@ export default function AuthPage() {
     <div
       className={`w-full h-screen flex justify-center items-center bg-gradient2`}
     >
-      <div className="relative w-[100rem] min-h-[80vh] bg-white rounded-[3rem] shadow-md overflow-hidden">
+      <div className="relative w-[100rem] h-full sm:min-h-[90vh] bg-white sm:rounded-[3rem] shadow-md overflow-hidden flex content-center items-center p-20">
         <div
           className={`absolute top-[50%] left-[-30rem] text-center text-white w-[30rem] z-[100] transition-all duration-[800ms] ${
             mode === 0 ? "" : "left-[5rem]"
           }`}
         >
-          <h1 className="text-5xl mb-12 hidden md:block">Welcome</h1>
+          <h1 className="text-6xl mb-12 hidden md:block">Welcome</h1>
         </div>
         <div
           className={`absolute inset-0 z-[50] bg-gradient transition-all duration-[1500ms] ${
@@ -58,7 +58,7 @@ export default function AuthPage() {
           {mode === 0 ? (
             <button
               type="button"
-              className="absolute top-[60%] left-1/2 -translate-x-1/2 w-[16rem] h-[5rem] border-[1px] border-white rounded-[3rem] uppercase tracking-wide text-white hover:bg-accent"
+              className="absolute top-[60%]  text-2xl left-1/2 -translate-x-1/2 w-[16rem] h-[5rem] border-[1px] border-white rounded-[3rem] uppercase tracking-wide text-white hover:bg-accent"
               onClick={() => setMode(1)}
             >
               Log In
@@ -66,10 +66,9 @@ export default function AuthPage() {
           ) : (
             <button
               type="button"
-              className="absolute top-[60%] left-1/2 -translate-x-1/2 w-[16rem] h-[5rem] border-none items-center gap-4 text-white flex justify-center"
+              className="absolute text-2xl top-[60%] left-1/2 -translate-x-1/2 w-[16rem] h-[5rem] border-none items-center gap-4 text-white flex justify-center"
               onClick={() => setMode(0)}
             >
-              {/* <FontAwesomeIcon icon={faArrowLeft} /> Back */}
               <IoIosArrowRoundBack /> Back
             </button>
           )}
@@ -156,7 +155,7 @@ function EmailScreen({ setMode, form, setForm }: EmailScreenProps) {
       {/* Signup Form */}
       <div className="flex flex-col gap-2 text-center ">
         <h1 className="text-6xl text-accent">Login to MyAuthDemo</h1>
-        <p className="text-xl text-black">
+        <p className="text-xl text-black pt-2">
           Please enter your credentials and log in
         </p>
       </div>
@@ -170,7 +169,7 @@ function EmailScreen({ setMode, form, setForm }: EmailScreenProps) {
         <input
           type="email"
           placeholder="Email"
-          className="w-full h-[5rem] pl-12 pr-4 rounded border border-gray-300"
+          className="w-full h-[5rem] text-xl pl-12 pr-4 rounded border border-gray-300"
           required={true}
           onChange={handleEmail}
           name="email"
@@ -192,13 +191,13 @@ function EmailScreen({ setMode, form, setForm }: EmailScreenProps) {
             value={form.tnc.toString()}
             onChange={handleCheckbox}
           />
-          <label htmlFor="tnc" className="text-black">
+          <label htmlFor="tnc" className="text-black text-xl">
             I accept and agree to the Terms of User and Privacy Policy
           </label>
         </div>
         <button
           type="button"
-          className="w-full h-[5rem] bg-accent text-white rounded-[3rem] uppercase tracking-wide mt-12 hover:bg-accent disabled:bg-slate-300"
+          className="w-full h-[5rem]  text-xl bg-accent text-white rounded-[3rem] tracking-wide mt-12 hover:bg-accent disabled:bg-slate-300"
           onClick={handleGetOTP}
           disabled={!passed || isLoading}
         >
@@ -236,7 +235,8 @@ function OTPScreen({ setMode, form, setForm }: OTPScreenProps) {
       });
       setError("");
     } catch (err: any) {
-      setError(err?.message || "Something went wrong");
+      console.log("XX err", err);
+      setError(err?.message);
     } finally {
       setIsLoading(false);
     }
@@ -266,12 +266,13 @@ function OTPScreen({ setMode, form, setForm }: OTPScreenProps) {
     <>
       <div className="flex flex-col gap-2 text-center ">
         <h1 className="text-6xl text-accent">Login to MyAuthDemo</h1>
-        <p className="text-xl text-black">
+        <p className="text-xl text-black pt-2">
           Please enter your credentials and log in
-        </p>
-        <p className="text-base text-black">
-          We have sent you an OTP to {form?.email}. Please check your email
-          inbox.
+          <br />
+          <br />
+          We have sent you an OTP to {form?.email}.
+          <br />
+          Please check your email inbox.
         </p>
       </div>
       <div className="flex flex-col gap-2 text-center w-full">
@@ -285,16 +286,21 @@ function OTPScreen({ setMode, form, setForm }: OTPScreenProps) {
           inputStyle={{
             border: "1px solid grey",
             borderRadius: "5px",
-            width: "50px",
-            height: "50px",
+            width: `calc(90% / ${OTP_LENGTH})`,
+            maxWidth: "50px",
+            aspectRatio: "1/1",
           }}
-          containerStyle={{ display: "flex", gap: "10px" }}
+          containerStyle={{
+            display: "flex",
+            gap: "10px",
+            justifyContent: "space-evenly",
+          }}
         />
       </div>
       <div className="flex flex-col gap-2 text-center w-full">
         <button
           type="button"
-          className="w-full h-[5rem] bg-accent text-white rounded-[3rem] uppercase tracking-wide mt-12 hover:bg-accent disabled:bg-slate-300"
+          className="w-full h-[5rem]  text-3xl bg-accent text-white rounded-[3rem] tracking-wide mt-12 hover:bg-accent disabled:bg-slate-300"
           onClick={handleVerifyOTP}
           disabled={isLoading || disabled}
         >
@@ -309,15 +315,18 @@ function OTPScreen({ setMode, form, setForm }: OTPScreenProps) {
         <div className="text-base text-black">
           <span>Did not receive OTP?</span>
           <button
-            className="ml-2 text-accent disabled:text-grey"
+            className="ml-2 text-accent text-base font-semibold disabled:text-gray-400"
             onClick={handleResetOTP}
             disabled={counter > 0}
           >
-            Resend OTP
+            Resend OTP {JSON.stringify(counter > 0)}
           </button>
         </div>
         <div className="text-base text-black">
-          <button className="ml-2 text-accent" onClick={handleLoginAnotherAcc}>
+          <button
+            className="ml-2 font-semibold text-accent"
+            onClick={handleLoginAnotherAcc}
+          >
             Log in With Another Account
           </button>
         </div>
