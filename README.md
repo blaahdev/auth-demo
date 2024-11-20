@@ -4,6 +4,11 @@
 2. Backend: NextJS: Only Logic flow written. Actual integration with BE + OTP generator is not connected.
 
 ---
+# Files:
+1. FrontEnd: /app/auth/page.tsx
+2. BackEnd: /app/api/(auth)/genOTP/route.js || /app/api/(auth)/verifyOTP/route.js
+
+---
 
 # Getting Started:
 
